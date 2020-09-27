@@ -1,0 +1,663 @@
+package palak_gui;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Paint;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.sql.*;
+
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.event.ListSelectionEvent;
+
+import com.sun.jdi.connect.spi.Connection;
+
+public class StudentRegis implements ActionListener,FocusListener,KeyListener
+{
+	JFrame frame = new JFrame("                                                                                               "
+	+ "                                                                                                  Student Registration");
+	JPanel p1=new JPanel();
+	JPanel p2=new JPanel();
+	JPanel p3=new JPanel();
+	JPanel p4=new JPanel();
+	JPanel p5=new JPanel();
+	//panel 1
+	JLabel title1=new JLabel();
+	Border brd=BorderFactory.createEtchedBorder();  //border
+	ImageIcon img=new ImageIcon("C:\\Users\\Palak\\Downloads\\download1.png");
+	JLabel imgl=new JLabel(img);
+	JLabel imgl2=new JLabel(img);
+	
+	//panel 2
+	JLabel title2=new JLabel("Personal Details");
+	JLabel sid=new JLabel("Student ID");
+	JTextField sidt=new JTextField();
+	JLabel sname=new JLabel("Student Name");
+	JTextField snamet=new JTextField();
+	JLabel sfname=new JLabel("Student Father's Name");
+	JTextField sfnamet=new JTextField();
+	JLabel smname=new JLabel("Student Mother's Name");
+	JTextField smnamet=new JTextField();
+	JLabel gender=new JLabel("Select your gender");
+	ButtonGroup bg=new ButtonGroup();
+	JRadioButton m=new JRadioButton("Male");               //radio button
+	JRadioButton f=new JRadioButton("Female");
+	JLabel dob=new JLabel("Date of Birth");
+	JLabel date=new JLabel("Date");
+	JComboBox<Integer> datec=new JComboBox<Integer>();         //combo button
+	JLabel month=new JLabel("Month");
+	JComboBox<String> monthc=new JComboBox<String>();
+	JLabel year=new JLabel("Year");
+	JComboBox<String> yearc=new JComboBox<String>();
+	JLabel adress=new JLabel("Address");
+	JTextArea adresst=new JTextArea();              //TextArea
+	JLabel phn=new JLabel("Mobile Number");
+	JTextField phnt=new JTextField();
+	JLabel error=new JLabel();             // hidden label for error
+	JLabel email=new JLabel("Emaill");
+	JTextField emailt=new JTextField();
+	 //panel 3
+	JLabel title3=new JLabel("Course Details");
+	JLabel course=new JLabel("Course");
+	JComboBox<String> coursec=new JComboBox<String>();         //combo button
+	JLabel branch=new JLabel("Branch");
+	JLabel branch1=new JLabel("(for B.tech students**)");
+	JComboBox<String> branchc=new JComboBox<String>();  
+	JLabel sem=new JLabel("Semester");
+	JComboBox<Integer> semc=new JComboBox<Integer>();
+	JLabel facilities=new JLabel("Facilities");
+	JCheckBox ghostel=new JCheckBox("Campus Girl Hostel");
+	JCheckBox bhostel=new JCheckBox("Campus Boys Hostel");
+	JCheckBox trans=new JCheckBox("Transport Facility");
+	JCheckBox canteen=new JCheckBox("College Canteen");
+	JCheckBox lib=new JCheckBox("College Library");
+	//panel 4
+	JButton save=new JButton("Save");
+	JButton view=new JButton("View");
+	JButton delete=new JButton("Delete");
+	JButton edit=new JButton("Edit");
+	JButton new1=new JButton("New");
+	JButton exit=new JButton("Exit");
+	
+	
+	
+	public StudentRegis()
+	{
+	frame.setLayout(null);
+    frame.setVisible(true);
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    Dimension objDimension = Toolkit.getDefaultToolkit().getDefaultToolkit().getScreenSize();  //TO SET FRAME SIZE AS SCREEN SIZE
+	frame.setSize(objDimension.width,objDimension.height-50);
+	//System.out.println(objDimension.width);  width=1536
+	//System.out.println(objDimension.height);    height=864=864
+	frame.add(p1);     p1.setLayout(null);   p1.setBounds(0, 0, 1536, 60);           
+	frame.add(p2);     p2.setLayout(null);   p2.setBounds(0, 60, 768, 650);
+	frame.add(p3);     p3.setLayout(null);   p3.setBounds(768, 60, 768, 650);
+	frame.add(p4);     p4.setLayout(null);   p4.setBounds(0, 650, 1536 , 154);
+	//panel 1
+	p1.add(title1);    title1.setText("Student Registration");    title1.setBounds(590, 0, 300, 100);
+	p1.add(imgl);      imgl.setBounds(1000,0,100,100);    
+	p1.add(imgl2);     imgl2.setBounds(300,0,100,100);
+	//panel 2
+	p2.add(title2);                      title2.setBounds(275, 2, 200, 20);
+	p2.add(sid);        				 sid.setBounds(40, 45, 200, 30);
+	p2.add(sidt); 						 sidt.setBounds(200, 45, 400, 30);
+	p2.add(sname); 						 sname.setBounds(40, 90, 200, 30);
+	p2.add(snamet); 					 snamet.setBounds(200, 90, 400, 30);	
+	p2.add(sfname); 					 sfname.setBounds(40, 135, 200, 30);
+	p2.add(sfnamet); 					 sfnamet.setBounds(200, 135, 400, 30);
+	p2.add(smname); 					 smname.setBounds(40, 180, 200, 30);
+	p2.add(smnamet);                     smnamet.setBounds(200, 180, 400, 30);
+	p2.add(gender);                      gender.setBounds(40,225,200,30);
+	bg.add(m);                           m.setBounds(200,225,100,30);          p2.add(m);
+	bg.add(f);                           f.setBounds(360,225,100,30);          p2.add(f);
+	p2.add(dob);                         dob.setBounds(40, 270, 200, 30);
+	p2.add(date);                        date.setBounds(200, 270, 100, 30);
+	p2.add(datec);                       datec.setBounds(300, 270, 200, 30);
+	datec.addItem(1);  datec.addItem(2);  datec.addItem(3);  datec.addItem(4);  datec.addItem(5);
+	datec.addItem(6);  datec.addItem(7);  datec.addItem(8);  datec.addItem(9);  datec.addItem(10);
+	datec.addItem(11);  datec.addItem(12);  datec.addItem(13);  datec.addItem(14);  datec.addItem(15);
+	datec.addItem(16);  datec.addItem(17);  datec.addItem(18);  datec.addItem(19);  datec.addItem(20);
+	datec.addItem(21);  datec.addItem(22);  datec.addItem(23);  datec.addItem(24);  datec.addItem(25);
+	datec.addItem(26);  datec.addItem(27);  datec.addItem(28);  datec.addItem(29);  datec.addItem(30);
+	datec.addItem(31); 
+    p2.add(month);                       month.setBounds(200, 305, 100, 30);
+	p2.add(monthc);						 monthc.setBounds(300, 305, 200, 30);
+    monthc.addItem("january");    monthc.addItem("february");  monthc.addItem("march");      monthc.addItem("april");
+	monthc.addItem("may");        monthc.addItem("june");      monthc.addItem("july");       monthc.addItem("august");
+	monthc.addItem("september");  monthc.addItem("october");   monthc.addItem("november");   monthc.addItem("december");
+    p2.add(year);                        year.setBounds(200, 340, 200, 30);
+	p2.add(yearc);						 yearc.setBounds(300, 340, 200, 30);
+    yearc.addItem("1992");    yearc.addItem("1993");     yearc.addItem("1994");      yearc.addItem("1995");  //better to add by making string array
+   	yearc.addItem("1996");    yearc.addItem("1997");     yearc.addItem("1998");      yearc.addItem("1999");
+   	yearc.addItem("2000");    yearc.addItem("2001");     yearc.addItem("2002");      yearc.addItem("2003");
+	p2.add(adress); 					 adress.setBounds(40, 385, 200, 30);
+	p2.add(adresst); 					 adresst.setBounds(200, 385, 400, 90);       adresst.setLineWrap(true); //to make adess in next lines
+	p2.add(phn); 						 phn.setBounds(40, 490,200, 30);
+	p2.add(phnt); 						 phnt.setBounds(200, 490,400, 30);
+	p2.add(error);						 error.setBounds(600,490,150, 30); 	error.setVisible(false); //error label should be hidden initially
+	p2.add(email); 						 email.setBounds(40, 525,200, 30);
+	p2.add(emailt); 					 emailt.setBounds(200, 525,400, 30);
+	
+	//panel 3
+	p3.add(title3);                      title3.setBounds(275, 2, 200, 20);
+	p3.add(course);						  course.setBounds(40, 45, 200, 30);
+	p3.add(coursec);                      coursec.setBounds(200, 45, 400, 30);
+	coursec.addItem("B.tech");            coursec.addItem("MBA");
+	coursec.addItem("BCA");               coursec.addItem("MCA");
+	p3.add(branch);						 branch.setBounds(40, 90, 200, 30);
+	p3.add(branch1);					 branch1.setBounds(60, 115, 200, 20);
+	p3.add(branchc);					 branchc.setBounds(200, 90, 400, 30);
+	branchc.addItem("Computer Science");                            branchc.addItem("Information Technology");
+	branchc.addItem("Electronincs and Communication");				branchc.addItem("Electical and Electronics");
+	branchc.addItem("Instrumental");			                  	branchc.addItem("Civil");
+	branchc.addItem("Mechanical");                                  branchc.addItem("Chemical");
+	p3.add(sem);  					 sem.setBounds(40, 135, 200, 30);
+	p3.add(semc); 					 semc.setBounds(200,135, 400, 30);
+	semc.addItem(1);					semc.addItem(2);
+	semc.addItem(3);					semc.addItem(4);
+	semc.addItem(5);                    semc.addItem(6);
+	semc.addItem(7);					semc.addItem(8);
+	p3.add(facilities);                 facilities.setBounds(40,180,200,30);
+	p3.add(ghostel);                    ghostel.setBounds(200,180,400,30);
+	p3.add(bhostel);                    bhostel.setBounds(200,210,400,30);
+	p3.add(trans);                      trans.setBounds(200,240,400,30);
+	p3.add(canteen);                    canteen.setBounds(200,270,400,30);
+	p3.add(lib);                        lib.setBounds(200,300,400,30);
+	
+	//panel 4
+	p4.add(save);                     save.setBounds(200,70,100,40);
+	p4.add(view);                     view.setBounds(400,70,100,40);
+	p4.add(delete);                     delete.setBounds(600,70,100,40);
+	p4.add(edit);                     edit.setBounds(800,70,100,40);
+	p4.add(new1);                     new1.setBounds(1000,70,100,40);
+	p4.add(exit);                     exit.setBounds(1200,70,100,40);
+	
+	
+	//font and color settings
+    p1.setBackground(Color.decode("#8a8a8a")); //change panel color
+	p2.setBackground(Color.LIGHT_GRAY); 
+	p3.setBackground(Color.LIGHT_GRAY);
+	p4.setBackground(Color.LIGHT_GRAY);  // use # before hexa values of colors to import them
+	p2.setBorder(brd);	
+	p3.setBorder(brd);
+	title1.setFont(new Font("Times New Roman",2,32));
+	title2.setFont(new Font("Times New Roman",2,16));
+	title3.setFont(new Font("Times New Roman",2,16));
+	sid.setFont(new Font("Times New Roman",2,16));
+	sname.setFont(new Font("Times New Roman",2,16));
+	sfname.setFont(new Font("Times New Roman",2,16));
+	smname.setFont(new Font("Times New Roman",2,16));
+	gender.setFont(new Font("Times New Roman",2,16));
+	dob.setFont(new Font("Times New Roman",2,16));
+	date.setFont(new Font("Times New Roman",2,16));
+	month.setFont(new Font("Times New Roman",2,16));
+	year.setFont(new Font("Times New Roman",2,16));
+	adress.setFont(new Font("Times New Roman",2,16));
+	phn.setFont(new Font("Times New Roman",2,16));
+	email.setFont(new Font("Times New Roman",2,16));
+	course.setFont(new Font("Times New Roman",2,16));
+	branch.setFont(new Font("Times New Roman",2,16));
+	branch1.setFont(new Font("Times New Roman",2,12));
+	sem.setFont(new Font("Times New Roman",2,16));
+	facilities.setFont(new Font("Times New Roman",2,16));
+	sidt.setFont(new Font("Times New Roman",2,16));  //for labels
+	snamet.setFont(new Font("Times New Roman",2,16));
+	sfnamet.setFont(new Font("Times New Roman",2,16));
+	smnamet.setFont(new Font("Times New Roman",2,16));
+	m.setFont(new Font("Times New Roman",2,16));
+	f.setFont(new Font("Times New Roman",2,16));
+	datec.setFont(new Font("Times New Roman",2,16));
+	monthc.setFont(new Font("Times New Roman",2,16));
+	yearc.setFont(new Font("Times New Roman",2,16));
+	adresst.setFont(new Font("Times New Roman",2,16));
+	phnt.setFont(new Font("Times New Roman",2,16));
+	error.setFont(new Font("Times New Roman",2,16));
+	emailt.setFont(new Font("Times New Roman",2,16));
+	coursec.setFont(new Font("Times New Roman",2,16));
+	branchc.setFont(new Font("Times New Roman",2,16));
+	semc.setFont(new Font("Times New Roman",2,16));
+	ghostel.setFont(new Font("Times New Roman",2,16));
+	bhostel.setFont(new Font("Times New Roman",2,16));
+	trans.setFont(new Font("Times New Roman",2,16));
+	canteen.setFont(new Font("Times New Roman",2,16));
+	lib.setFont(new Font("Times New Roman",2,16));
+	save.setBackground(Color.decode("#8a8a8a"));  //button color
+	new1.setBackground(Color.decode("#8a8a8a"));
+	view.setBackground(Color.decode("#8a8a8a"));
+	edit.setBackground(Color.decode("#8a8a8a"));
+	exit.setBackground(Color.decode("#8a8a8a"));
+	delete.setBackground(Color.decode("#8a8a8a"));
+	save.setFont(new Font("Times New Roman",3,16));  
+	new1.setFont(new Font("Times New Roman",3,16));
+	edit.setFont(new Font("Times New Roman",3,16));
+	delete.setFont(new Font("Times New Roman",3,16));
+	exit.setFont(new Font("Times New Roman",3,16));
+	view.setFont(new Font("Times New Roman",3,16));
+	m.setBackground(Color.LIGHT_GRAY); 
+	f.setBackground(Color.LIGHT_GRAY); 
+	bhostel.setBackground(Color.LIGHT_GRAY); 
+	ghostel.setBackground(Color.LIGHT_GRAY); 
+	trans.setBackground(Color.LIGHT_GRAY); 
+	lib.setBackground(Color.LIGHT_GRAY); 
+	canteen.setBackground(Color.LIGHT_GRAY); 
+	error.setForeground(Color.red);
+		
+	save.addActionListener(this);
+	exit.addActionListener(this);
+	delete.addActionListener(this);
+	view.addActionListener(this);
+	new1.addActionListener(this);
+	edit.addActionListener(this);
+	
+	sidt.addKeyListener(this);
+	snamet.addKeyListener(this);
+	sfnamet.addKeyListener(this);
+	smnamet.addKeyListener(this);
+	adresst.addKeyListener(this);
+	emailt.addKeyListener(this);
+	phnt.addKeyListener(this);
+	
+	//snamet.addFocusListener(this);
+	sidt.addFocusListener(this);
+	snamet.addFocusListener(this);
+	sfnamet.addFocusListener(this);
+	smnamet.addFocusListener(this);
+	adresst.addFocusListener(this);
+	emailt.addFocusListener(this);
+	phnt.addFocusListener(this);
+	}
+	
+	
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		// TODO Auto-generated method stub
+		String dob[];
+		if(e.getSource()==save)
+		{ 
+			try
+		{
+				java.sql.Connection cnt=DriverManager.getConnection("jdbc:ucanaccess://d:/student.accdb");
+				PreparedStatement pstatement=cnt.prepareStatement("insert into std(id,name,father_name,mother_name,gender,dob,adress,mobile_no,emailid,course,branch,semester,gh,bh,tf,cc,cl) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			//PreparedStatement pstatement=cnt.prepareStatement("insert into std(id,name,father_name,mother_name,gender,dob,adress,mobile_no,emailid,course,branch,semester) values(?,?,?,?,?,?,?,?,?,?,?,?)");
+			 pstatement.setInt(1, Integer.parseInt(sidt.getText()));
+			 pstatement.setString(2, snamet.getText());
+			 pstatement.setString(3, sfnamet.getText());
+			 pstatement.setString(4, smnamet.getText());
+			 if(m.isSelected()==true)
+			 { 
+				 pstatement.setString(5, "male");                // use getSelection().toString() for combo box
+			 }
+			 else
+			 {
+				 pstatement.setString(5,"female");    
+			 }
+			 pstatement.setString(6, datec.getSelectedItem().toString()+"/"+monthc.getSelectedItem().toString()+"/"+yearc.getSelectedItem().toString());
+			 pstatement.setString(7, adresst.getText());
+			 pstatement.setString(8, phnt.getText());
+			 pstatement.setString(9, emailt.getText());
+			 pstatement.setString(10, coursec.getSelectedItem().toString());
+			 pstatement.setString(11, branchc.getSelectedItem().toString());
+			 pstatement.setString(12, semc.getSelectedItem().toString());
+			 
+			 
+			 if(ghostel.isSelected()==true)
+			 { 
+				 pstatement.setString(13, "Yes");                // use getSelection().toString() for combo box
+			 }
+			 else
+			 {
+				 pstatement.setString(13, "No");    
+			 }
+			 if(bhostel.isSelected()==true)
+			 { 
+				 pstatement.setString(14, "Yes");                // use getSelection().toString() for combo box
+			 }
+			 else
+			 {
+				 pstatement.setString(14, "No");    
+			 }
+			 if(trans.isSelected()==true)
+			 { 
+				 pstatement.setString(15, "Yes");                // use getSelection().toString() for combo box
+			 }
+			 else
+			 {
+				 pstatement.setString(15, "No");    
+			 }
+			 if(canteen.isSelected()==true)
+			 { 
+				 pstatement.setString(16, "Yes");                // use getSelection().toString() for combo box
+			 }
+			 else
+			 {
+				 pstatement.setString(16, "No");    
+			 }
+			 if(lib.isSelected()==true)
+			 { 
+				 pstatement.setString(17, "Yes");                // use getSelection().toString() for combo box
+			 }
+			 else
+			 {
+				 pstatement.setString(17, "No");    
+			 }
+			 
+				pstatement.executeUpdate();
+				JOptionPane.showMessageDialog(null,"Data Saved");
+			}
+			catch(SQLException e1)
+			{
+				System.out.println(e1);
+			}
+		}
+		
+		
+		if(e.getSource()==new1)
+		{   
+			sidt.setText("");
+	        snamet.setText("");
+	        sfnamet.setText("");
+	        smnamet.setText("");
+	        m.setSelected(false);
+	      	f.setSelected(false);
+	      	datec.setSelectedIndex(-1);
+	      	monthc.setSelectedIndex(-1);
+			yearc.setSelectedIndex(-1);
+			adresst.setText("");
+			 phnt.setText("");
+			 emailt.setText("");
+			 coursec.setSelectedIndex(-1);
+		     branchc.setSelectedIndex(-1);
+			semc.setSelectedIndex(-1);
+			 ghostel.setSelected(false);
+			 bhostel.setSelected(false);
+			 trans.setSelected(false);
+			 canteen.setSelected(false);
+			lib.setSelected(false);
+		}
+		if(e.getSource()==view)
+		{
+			try
+			{
+					java.sql.Connection cnt=DriverManager.getConnection("jdbc:ucanaccess://d:/student.accdb");
+					Statement st=cnt.createStatement();
+					PreparedStatement pstatement = cnt.prepareStatement("select * from std where id=?");
+					pstatement.setInt(1, Integer.parseInt(sidt.getText()));
+					ResultSet rs=pstatement.executeQuery();
+					
+					while(rs.next())
+					{
+						snamet.setText(rs.getString(1));             //here index should be matched with table starting from 0
+						sfnamet.setText(rs.getString(2));
+						smnamet.setText(rs.getString(3));
+						if(rs.getString(4)=="male")            //for radio button
+						{
+						m.setSelected(true);
+						}
+						else
+						{
+							f.setSelected(true);
+						}
+						adresst.setText(rs.getString(6));
+						phnt.setText(rs.getString(7));
+						emailt.setText(rs.getString(8));
+						coursec.setSelectedItem(rs.getString(9));
+						branchc.setSelectedItem(rs.getString(10));
+						semc.setSelectedItem(rs.getString(11));
+						if(rs.getString(12)=="Yes")            
+						{
+						ghostel.setSelected(true);
+						}
+						if(rs.getString(13)=="Yes")            
+						{
+						bhostel.setSelected(true);
+						}
+						if(rs.getString(14)=="Yes")            
+						{
+						trans.setSelected(true);
+						}
+						if(rs.getString(15)=="Yes")            
+						{
+						canteen.setSelected(true);
+						}
+						if(rs.getString(16)=="Yes")            
+						{
+						lib.setSelected(true);
+						}
+						System.out.println(rs.getString(5));
+						dob=rs.getString(5).toString().split("//");
+						
+						datec.setSelectedItem(dob[0]);
+						monthc.setSelectedItem(dob[1]);
+						yearc.setSelectedItem(dob[2]);
+				     }
+			}
+			catch (Exception ee) 
+			{
+				// TODO: handle exception
+			}
+		}
+		if(e.getSource()==delete)
+		{
+			
+			try {
+				java.sql.Connection cnt=DriverManager.getConnection("jdbc:ucanaccess://d:/student.accdb");
+				PreparedStatement pstatement = cnt.prepareStatement("delete * from std where id=?");
+				 pstatement.setInt(1,Integer.parseInt(sidt.getText()));
+				 pstatement.executeUpdate(); 
+			} 
+			catch (SQLException e1) 
+			{
+				System.out.println(e1);
+			}
+			
+		}
+		if(e.getSource()==edit)
+		{
+			try
+			{
+			java.sql.Connection cnt=DriverManager.getConnection("jdbc:ucanaccess://d:/student.accdb");
+			PreparedStatement pstatement = cnt.prepareStatement("update  std set snamet=? where sidt=?");
+			pstatement.setInt(2, Integer.parseInt(sidt.getText()));
+			pstatement.setString(1, snamet.getText());
+			pstatement.executeUpdate();
+			}
+			catch (Exception ef) {
+				// TODO: handle exception
+			}
+		}
+		if(e.getSource()==exit)
+		{
+	       frame.setVisible(false);
+	       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		}
+	}
+	
+	public void keyPressed(KeyEvent ke)
+	{
+		
+		{
+			if(ke.getKeyCode()== KeyEvent.VK_ENTER)             //getkeycode returns ascii , keychar-returns type character
+			{
+				sidt.grabFocus();
+				if(sidt.getText().length()!=0 )
+				{
+					snamet.grabFocus();
+					
+				}
+				if(snamet.getText().length()!=0 )
+				{
+					sfnamet.grabFocus();
+					
+				}
+				if(sfnamet.getText().length()!=0 )
+				{
+					smnamet.grabFocus();
+					
+				}
+				if(smnamet.getText().length()!=0 )
+				{m.grabFocus();                       ////////////////why not bg
+					
+				}
+				if(m.isSelected()||f.isSelected() )
+				{
+					datec.grabFocus();
+						
+				}
+				if(datec.getSelectedIndex()>=0 )   //for combo box
+				{
+					monthc.grabFocus();
+				}
+				if(monthc.getSelectedIndex()>=0 )   //for combo box
+				{
+					yearc.grabFocus();
+				}
+				if(yearc.getSelectedIndex()>=0 )   //for combo box
+				{
+				adresst.grabFocus();
+					
+				}
+				if(adresst.getText().length()!=0 )
+				{
+					
+					emailt.grabFocus();
+					
+				}
+				if(phnt.getText().length()!=0 )
+				{
+					emailt.grabFocus();
+					
+				}
+				if(emailt.getText().length()!=0 )
+				{
+					coursec.grabFocus();
+				}
+				if(coursec.getSelectedIndex()>=0 )   //for combo box
+				{
+				branchc.grabFocus();
+				}
+				if(branchc.getSelectedIndex()>=0 )   //for combo box
+				{
+				semc.grabFocus();
+				}
+					
+			}
+		}	
+	}
+	public void keyTyped(KeyEvent ke)                
+	{
+		if(ke.getSource()==phnt)
+	  {
+		char c = ke.getKeyChar();
+		if(!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)))
+		{ 
+			ke.consume();                 //skip the type character(wipe out)
+		     error.setText("Only Numbers!!!");       
+		     error.setVisible(true);
+		}
+		     else
+		     {
+		    	 error.setVisible(false);
+		     }
+		 }
+	  }
+	public void keyReleased(KeyEvent ke)
+	{
+		
+	}
+	
+	
+	public void focusGained(FocusEvent fe)
+	{
+		
+	}
+	public void focusLost(FocusEvent fe)
+	{
+		if(fe.getSource()==sidt && sidt.getText().length()==0)
+		{
+			sidt.grabFocus();
+		}
+		else if(fe.getSource()==snamet && snamet.getText().length()==0)           //else is not compulsary
+		{
+			snamet.grabFocus();
+		}
+		else if(fe.getSource()==sfnamet && sfnamet.getText().length()==0)
+		{
+			sfnamet.grabFocus();
+		}
+		else if(fe.getSource()==smnamet && smnamet.getText().length()==0)
+		{
+			smnamet.grabFocus();
+		}
+		else if((fe.getSource()==m || fe.getSource()==f) && m.isSelected()==false && f.isSelected()==false)
+		{
+			m.grabFocus();
+		}
+		 if(fe.getSource()==datec && datec.getSelectedIndex()==-1)
+		{
+			datec.grabFocus();
+		}
+		else if(fe.getSource()==monthc && monthc.getSelectedIndex()==-1)
+		{
+			monthc.grabFocus();
+		}
+		else if(fe.getSource()==yearc && yearc.getSelectedIndex()==-1)
+		{
+			yearc.grabFocus();
+		}
+		else if(fe.getSource()==adresst && adresst.getText().length()==0)
+		{
+			adresst.grabFocus();
+		}
+		else if(fe.getSource()==phnt && phnt.getText().length()==0)
+		{
+			phnt.grabFocus();
+		}
+		else if(fe.getSource()==emailt && emailt.getText().length()==0)
+		{
+			emailt.grabFocus();
+		}
+	   else if(fe.getSource()==coursec && coursec.getSelectedIndex()==-1)
+		{
+			coursec.grabFocus();
+		}
+		else if(fe.getSource()==branchc && branchc.getSelectedIndex()==-1)
+		{
+			branchc.grabFocus();
+		}
+		else if(fe.getSource()==semc && semc.getSelectedIndex()==-1)
+		{
+			semc.grabFocus();
+		} 
+				
+	}
+	
+	public static void main(String s[])
+	{
+	StudentRegis obj= new StudentRegis();
+	
+	}
+
+	
+}
